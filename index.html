@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>photoMagician examples</title>
+    <style>
+        h1.title {
+            margin-bottom: 30px;
+            padding: 20px 0;
+            text-align: center;
+            font-weight: 500;
+            border-bottom: 1px solid
+        }
+
+        .flex {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 50px 20px;
+        }
+
+        .demo-section {
+            flex-basis: 440px;
+            height: 440px;
+            text-align: center;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            float: left;
+            margin: 0 50px 50px 0;
+            box-shadow: 0 0 2px rgba(0, 0, 0, .1)
+        }
+
+        .demo-section img {
+            text-align: center;
+            max-width: 100%;
+        }
+
+        .demo-section .title {
+            font-weight: 500
+        }
+
+        .demo-section .demo-content {
+            border-top: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="title">photoMagician | Provide some common image process apis with canvas 【
+        <a href="https://github.com/lijinke666/photo-magician/blob/master/index.html" target="_blank">Source Code</a>】</h1>
+    <div class="flex">
+        <div class="demo-section base">
+            <h3 class="title">Base Image</h3>
+            <p class="demo-content base-content">
+                <img src="" alt="" class="base-img">
+            </p>
+        </div>
+        <div class="demo-section compress">
+            <h3 class="title">compressImage()</h3>
+            <p class="demo-content compress-content"></p>
+        </div>
+        <div class="demo-section base64Url">
+            <h3 class="title">toBase64Url()</h3>
+            <p class="demo-content base64Url-content"></p>
+        </div>
+        <div class="demo-section clipImage">
+            <h3 class="title">clipImage()</h3>
+            <p class="demo-content clipImage-content"></p>
+        </div>
+        <div class="demo-section primaryColor">
+            <h3 class="title">getPrimaryColor()</h3>
+            <p class="demo-content primaryColor-content">
+                <img src="./assets//watermark.png"/>
+            </p>
+        </div>
+        <div class="demo-section addWaterMark">
+            <h3 class="title">addWaterMark({mode: "image"})</h3>
+            <p class="demo-content addWaterMark-img-content"></p>
+        </div>
+        <div class="demo-section addWaterMark">
+            <h3 class="title">addWaterMark({mode: "text"})</h3>
+            <p class="demo-content addWaterMark-text-content"></p>
+        </div>
+        <div class="demo-section addImageFilter">
+            <h3 class="title">addImageFilter({mode: "vintage"})</h3>
+            <p class="demo-content vintage-content"></p>
+        </div>
+        <div class="demo-section addImageFilter">
+            <h3 class="title">addImageFilter({mode: "blackWhite"})</h3>
+            <p class="demo-content blackWhite-content"></p>
+        </div>
+        <div class="demo-section addImageFilter">
+            <h3 class="title">addImageFilter({mode:"relief"})</h3>
+            <p class="demo-content relief-content"></p>
+        </div>
+        <div class="demo-section addImageFilter">
+            <h3 class="title">addImageFilter({mode:"blur"})</h3>
+            <p class="demo-content blur-content"></p>
+        </div>
+        <!-- <div class="demo-section addImageFilter">
+            <h3 class="title">反色滤镜:addImageFilter()</h3>
+            <p class="demo-content invert-content"></p>
+        </div>
+        <div class="demo-section addImageFilter">
+            <h3 class="title">镜像滤镜:addImageFilter()</h3>
+            <p class="demo-content mirror-content"></p>
+        </div> -->
+    </div>
+</body>
+<script src="./photoMagician.min.js"></script>
+<script>
+    const baseImageUrl = './assets/demo.jpg'
+    const watermark = './assets/watermark.png'
+
+    const $ = (selector) => document.querySelector(selector)
+    const magician = new photoMagician()
+
+    $('.base-img').src = baseImageUrl
+
+
+    // 图片转base64
+    magician.toBase64Url({
+        cover: baseImageUrl
+    }).then((url) => {
+        magician.createImageNode(url).then((data) => {
+            $('.base64Url-content').appendChild(data)
+        })
+    }).catch((err) => {
+        console.error('toBase64Url error', err);
+    })
+
+    magician.getPrimaryColor({ cover: watermark })
+    .then((color) => {
+        $('.primaryColor').style.border = `1px solid ${color}`
+    }).catch((err) => {
+        console.error('getPrimaryColor error', err);
+    })
+
+    //压缩图片
+    magician.compressImage({
+        cover: baseImageUrl,
+        quality: 0.12,
+    }).then((imageNode) => {
+        $('.compress-content').appendChild(imageNode)
+    }).catch((err) => {
+        console.error('compressImage error', err);
+    })
+
+    //裁剪图片
+    magician.clipImage({
+        cover: baseImageUrl,
+        scale: 1.0,
+        coordinate: [[200, 200], [300, 300]],             //裁剪坐标 [x1,y1], [x2,y2]
+    }).then((imageNode) => {
+        $('.clipImage-content').appendChild(imageNode)
+    }).catch((err) => {
+        console.error('clipImage error', err);
+    })
+
+    //添加水印 (图片)
+    magician.addWaterMark({
+        cover: baseImageUrl,
+        mode: "image",
+        waterMark: watermark,
+        width: 60,
+        height: 60,
+        opacity: 0.8,
+        coordinate: [330, 300],
+    }).then((imageNode) => {
+        $('.addWaterMark-img-content').appendChild(imageNode)
+    }).catch((err) => {
+        console.error('add image WaterMark error', err);
+    })
+
+    //添加水印 (文字)
+    magician.addWaterMark({
+        cover: baseImageUrl,
+        mode: "text",
+        waterMark: "photo-magician.js",
+        fontBold: false,
+        fontSize: 20,
+        fontColor: "#396",
+        coordinate: [10, 20]
+    }).then((imageNode) => {
+        $('.addWaterMark-text-content').appendChild(imageNode)
+    }).catch((err) => {
+        console.error('add text WaterMark error', err);
+    })
+
+    //添加图片滤镜  (复古)
+    magician.addImageFilter({
+        cover: baseImageUrl,
+        mode: "vintage"
+    }).then((imageNode) => {
+        $('.vintage-content').appendChild(imageNode)
+    }).catch((err) => {
+        console.error('add image filter error', err);
+    })
+
+    //添加图片滤镜  (黑白)
+    magician.addImageFilter({
+        cover: baseImageUrl,
+        mode: "blackWhite"
+    }).then((imageNode) => {
+        $('.blackWhite-content').appendChild(imageNode)
+    }).catch((err) => {
+        console.error('add image filter error', err);
+    })
+
+    //添加图片滤镜  (浮雕)
+    magician.addImageFilter({
+        cover: baseImageUrl,
+        mode: "relief"
+    }).then((imageNode) => {
+        $('.relief-content').appendChild(imageNode)
+    }).catch((err) => {
+        console.error('add image filter error', err);
+    })
+
+    // //添加图片滤镜  (反色)
+    // magician.addImageFilter({
+    //     cover: baseImageUrl,
+    //     mode: "invert"
+    // }).then((imageNode) => {
+    //     $('.invert-content').appendChild(imageNode)
+    // }).catch((err) => {
+    //     console.error('add image filter error', err);
+    // })
+
+    // //添加图片滤镜  (镜像)
+    // magician.addImageFilter({
+    //     cover: baseImageUrl,
+    //     mode: "mirror"
+    // }).then((imageNode) => {
+    //     $('.mirror-content').appendChild(imageNode)
+    // }).catch((err) => {
+    //     console.error('add image filter error', err);
+    // })
+
+    //添加图片滤镜  (模糊)
+    magician.addImageFilter({
+        cover: baseImageUrl,
+        mode: "blur"
+    }).then((imageNode) => {
+        $('.blur-content').appendChild(imageNode)
+    }).catch((err) => {
+        console.error('add image filter error', err);
+    })
+
+</script>
+
+</html>
