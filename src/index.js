@@ -1,5 +1,4 @@
-
-export default ()=>{
-  console.log('hello world');
-  return true
-}
+export default () => {
+  console.log("hello world");
+  return true;
+};

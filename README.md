@@ -22,7 +22,7 @@ npm install {name} --save
 
 ## Screenshots
 
-![https://github.com/lijinke666/{name}/bolb/master/assets/screenshot.png](https://github.com/lijinke666/{name}/blob/master/assets/screenshot.png)
+![https://github.com/lijinke666/{name}/bolb/master/assets/logo.png](https://github.com/lijinke666/{name}/blob/master/assets/logo.png)
 
 ## Example
 
