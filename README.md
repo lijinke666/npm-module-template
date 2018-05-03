@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/dm/{name}.svg?style=flat-square)](https://www.npmjs.com/package/{name})
 [![npm](https://img.shields.io/npm/l/{name}.svg?style=flat-square)](https://www.npmjs.com/package/{name})
-[![npm version](https://img.shields.io/npm/v/photo-magician.svg?style=flat-square)](https://badge.fury.io/js/{name})
+[![npm version](https://img.shields.io/npm/v/{name}.svg?style=flat-square)](https://badge.fury.io/js/{name})
 [![jest](https://facebook.github.io/jest/img/jest-badge.svg)](https://github.com/facebook/jest)
 
 npm module template by:dawdler
